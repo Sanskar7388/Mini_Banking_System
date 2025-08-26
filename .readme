@@ -1,0 +1,22 @@
+# 🏦 Mini Banking System (SQL Project)
+
+A mini banking system implemented in **MySQL**, designed as a resume-building project for database enthusiasts.  
+It demonstrates **SQL fundamentals + advanced features** like stored procedures, triggers, and analytics views.
+
+## 📌 Features
+- Customer & Account management
+- Secure money transfers with balance checks
+- Automatic transaction logging
+- Views for real-time insights
+- Fraud detection queries
+
+## 🛠️ Tech Stack
+- MySQL (Database)
+- SQL Stored Procedures & Triggers
+- Views for analytics
+
+## 🚀 How to Run
+1. Clone this repository  
+2. Import the `banking_system.sql` file into MySQL  
+   ```bash
+   mysql -u root -p < banking_system.sql
