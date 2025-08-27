@@ -103,9 +103,31 @@ JOIN Customers c ON a.customer_id = c.customer_id
 GROUP BY c.name, MONTH(t.transaction_date);
 
 -- 2. Fraud detection (suspicious high-value transfers)
-CREATE VIEW SuspiciousTransactions AS
-SELECT * FROM TransactionView
-WHERE amount > 10000;
+-- Fraud alerts table
+CREATE TABLE fraud_alerts (
+    alert_id INT AUTO_INCREMENT PRIMARY KEY,
+    account_id INT,
+    transaction_id INT,
+    alert_message VARCHAR(255),
+    alert_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (account_id) REFERENCES accounts(account_id),
+    FOREIGN KEY (transaction_id) REFERENCES transactions(transaction_id)
+);
+
+-- Trigger for fraud detection
+DELIMITER $$
+CREATE TRIGGER fraud_check AFTER INSERT ON transactions
+FOR EACH ROW
+BEGIN
+    -- Example rule: Flag if amount > 50000
+    IF NEW.amount > 50000 THEN
+        INSERT INTO fraud_alerts (account_id, transaction_id, alert_message)
+        VALUES (NEW.from_account, NEW.transaction_id, 'High-value transaction detected');
+    END IF;
+END $$
+DELIMITER ;
+
+
 
 -- 3. Most active customers
 CREATE VIEW TopCustomers AS
